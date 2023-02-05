@@ -66,19 +66,21 @@ add action=masquerade chain=srcnat out-interface=pppoe-out1
 add address=______ list=TRUSTED
 #add desired trusted IP's
 
+#simple firewall list for pppoe, add or subtract as needed, add ports
+/ip firewall address-list
+add address=10.0.0.0/8 list=TRUSTED
+add address=172.16.0.0/12 list=TRUSTED
+add address=192.168.0.0/16 list=TRUSTED
+add address=202.44.60.192/26 list=TRUSTED
+add address=103.232.106.119 list=TRUSTED
 /ip firewall filter
-#simple firewall list for pppoe, add or subtract as needed
-add action=accept chain=forward comment="Allow - TRUSTED" in-interface=\
-    pppoe-out1 src-address-list=TRUSTED
-add action=accept chain=forward comment="Allow - Established/Related" \
-    connection-state=established,related in-interface=pppoe-out1
-add action=drop chain=forward comment="Drop - Everything" in-interface=\
-    pppoe-out1
-add action=accept chain=input comment="Allow - PING" protocol=icmp
-add action=accept chain=input comment="Allow - Neighbour Discovery" dst-port=\
-    5678 protocol=udp
-add action=accept chain=input comment="Allow - TRUSTED" src-address-list=\
-    TRUSTED
-add action=accept chain=input comment="Allow - Related/Established" \
-    connection-state=established,related
-add action=drop chain=input comment="Drop - Everything"
+add action=accept chain=input connection-state=established,related
+add action=accept chain=input src-address-list=TRUSTED
+add action=accept chain=input protocol=icmp
+add action=accept chain=input dst-address=255.255.255.255 dst-port=
+protocol=udp
+add action=accept chain=input dst-port= in-interface-list=!WAN
+protocol=udp
+add action=accept chain=input dst-port= in-interface-list=!WAN
+protocol=tcp
+add action=drop chain=input
