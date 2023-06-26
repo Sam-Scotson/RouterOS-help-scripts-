@@ -66,5 +66,6 @@ add action=add-src-to-address-list address-list="portknock" address-list-timeout
 add action=add-src-to-address-list address-list="portknock" address-list-timeout=10s chain=input comment="Port Knocking - Stage 3" dst-port=9012 protocol=udp
 add action=drop chain=input comment="Drop Invalid Port Knocking" connection-state=new src-address-list=!portknock
 
-# Regularly Update RouterOS:
-/system package update check-for-updates
+# Update RouterOS:
+# Remove # to activate 
+#/system package update check-for-updates
