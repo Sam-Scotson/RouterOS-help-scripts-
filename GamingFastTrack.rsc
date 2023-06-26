@@ -1,3 +1,4 @@
+# MikroTik RouterOS version 6.x
 # Replace <Wii_IP>, <Switch_IP>, <PS_IP>, <Xbox_IP>, and <Destination_IP> with the appropriate IP addresses in each corresponding section.
 
 # Enable Connection Tracking
