@@ -27,6 +27,8 @@ add action=dst-nat chain=dstnat comment="Unreal Engine" dst-port=7777 protocol=t
 add action=dst-nat chain=dstnat comment="Minecraft" dst-port=25565 protocol=tcp to-addresses=<Destination_IP> to-ports=25565
 add action=dst-nat chain=dstnat comment="Steam" dst-port=27015 protocol=tcp to-addresses=<Destination_IP> to-ports=27015
 add action=dst-nat chain=dstnat comment="Final Fantasy XIV" dst-port=32300-32303 protocol=tcp to-addresses=<Destination_IP> to-ports=32300-32303
+add action=dst-nat chain=dstnat comment="Riot Games UDP" dst-port=5000-5500 protocol=udp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Riot Games TCP" dst-port=8393-8400,2099,5223,5222 protocol=tcp to-addresses=<Destination_IP>
 
 # Common TCP Ports
 add action=dst-nat chain=dstnat comment="Common TCP Ports" dst-port=14000,14008,14020,14021,14022,14023 protocol=tcp to-addresses=<Destination_IP>
