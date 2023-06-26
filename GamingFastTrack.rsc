@@ -1,3 +1,5 @@
+# Replace <Wii_IP>, <Switch_IP>, <PS_IP>, <Xbox_IP>, and <Destination_IP> with the appropriate IP addresses in each corresponding section.
+
 # Enable FastTrack
 /ip firewall filter
 add action=fasttrack-connection chain=forward comment="FastTrack Established Connections" connection-state=established
