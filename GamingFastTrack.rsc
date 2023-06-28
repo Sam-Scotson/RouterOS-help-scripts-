@@ -1,3 +1,4 @@
+# Gamer FastTrack NAT Config
 # MikroTik RouterOS version 6.x
 # Replace <Wii_IP>, <Switch_IP>, <PS_IP>, <Xbox_IP>, and <Destination_IP> with the appropriate IP addresses in each corresponding section.
 
@@ -34,6 +35,10 @@ add action=dst-nat chain=dstnat comment="Steam" dst-port=27015 protocol=tcp to-a
 add action=dst-nat chain=dstnat comment="Final Fantasy XIV" dst-port=32300-32303 protocol=tcp to-addresses=<Destination_IP> to-ports=32300-32303
 add action=dst-nat chain=dstnat comment="Riot Games UDP" dst-port=5000-5500 protocol=udp to-addresses=<Destination_IP>
 add action=dst-nat chain=dstnat comment="Riot Games TCP" dst-port=8393-8400,2099,5223,5222 protocol=tcp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Tibia TCP" dst-port=7171 protocol=tcp to-addresses=<Destination_IP> to-ports=7171
+add action=dst-nat chain=dstnat comment="Tibia UDP" dst-port=7171 protocol=udp to-addresses=<Destination_IP> to-ports=7171
+add action=dst-nat chain=dstnat comment="Fortnite TCP" dst-port=3478,3479,5060,5062,5222,6250 protocol=tcp to-addresses=<Destination_IP> to-ports=3478,3479,5060,5062,5222,6250
+add action=dst-nat chain=dstnat comment="Fortnite UDP" dst-port=3478,3479,5060,5062,5222,6250 protocol=udp to-addresses=<Destination_IP> to-ports=3478,3479,5060,5062,5222,6250
 
 # Common TCP Ports
 add action=dst-nat chain=dstnat comment="Common TCP Ports" dst-port=14000,14008,14020,14021,14022,14023 protocol=tcp to-addresses=<Destination_IP>
