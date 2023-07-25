@@ -10,18 +10,21 @@ set enabled=yes
 /ip firewall filter
 add action=fasttrack-connection chain=forward comment="FastTrack Established Connections" connection-state=established
 
+# Enable Source Address Validation (Spoofing) Prevention (RP-Filter)
+/interface ethernet set [find] rp-filter=strict
+
 # Nintendo Wii
 /ip firewall nat
 add action=dst-nat chain=dstnat comment="Nintendo Wii TCP" dst-port=443 protocol=tcp to-addresses=<Wii_IP> to-ports=443
 add action=dst-nat chain=dstnat comment="Nintendo Wii UDP" dst-port=3074,3075 protocol=udp to-addresses=<Wii_IP> to-ports=3074-3075
 
 # Nintendo Switch
-add action=dst-nat chain=dstnat comment="Nintendo Switch TCP"  dst-port=6667 protocol=tcp to-addresses=<Switch_IP> to-ports=6667
+add action=dst-nat chain=dstnat comment="Nintendo Switch TCP" dst-port=6667 protocol=tcp to-addresses=<Switch_IP> to-ports=6667
 add action=dst-nat chain=dstnat comment="Nintendo Switch UDP" dst-port=12400,28910,29900,29901,29920 protocol=udp to-addresses=<Switch_IP> to-ports=12400,28910,29900,29901,29920
 
 # Playstation 4 / 5
-add action=dst-nat chain=dstnat comment="Playstation TCP" dst-port=80,3478,3479,3480 protocol=tcp to-addresses=<PS_IP> to-ports=80,3478,3479,3480
-add action=dst-nat chain=dstnat comment="Playstation UDP" dst-port=3478,3479,3074,3075 protocol=udp to-addresses=<PS_IP> to-ports=3478,3479,3074,3075
+add action=dst-nat chain=dstnat comment="Playstation TCP" dst-port=80,3478,3480 protocol=tcp to-addresses=<PS_IP> to-ports=80,3478,3480
+add action=dst-nat chain=dstnat comment="Playstation UDP" dst-port=3478,3074 protocol=udp to-addresses=<PS_IP> to-ports=3478,3074
 
 # Xbox
 add action=dst-nat chain=dstnat comment="Xbox TCP" dst-port=53,80,3074 protocol=tcp to-addresses=<Xbox_IP> to-ports=53,80,3074
@@ -32,13 +35,26 @@ add action=dst-nat chain=dstnat comment="Source Engine" dst-port=27015 protocol=
 add action=dst-nat chain=dstnat comment="Unreal Engine" dst-port=7777 protocol=tcp to-addresses=<Destination_IP> to-ports=7777
 add action=dst-nat chain=dstnat comment="Minecraft" dst-port=25565 protocol=tcp to-addresses=<Destination_IP> to-ports=25565
 add action=dst-nat chain=dstnat comment="Steam" dst-port=27015 protocol=tcp to-addresses=<Destination_IP> to-ports=27015
-add action=dst-nat chain=dstnat comment="Final Fantasy XIV" dst-port=32300-32303 protocol=tcp to-addresses=<Destination_IP> to-ports=32300-32303
-add action=dst-nat chain=dstnat comment="Riot Games UDP" dst-port=5000-5500 protocol=udp to-addresses=<Destination_IP>
-add action=dst-nat chain=dstnat comment="Riot Games TCP" dst-port=8393-8400,2099,5223,5222 protocol=tcp to-addresses=<Destination_IP>
-add action=dst-nat chain=dstnat comment="Tibia TCP" dst-port=7171 protocol=tcp to-addresses=<Destination_IP> to-ports=7171
-add action=dst-nat chain=dstnat comment="Tibia UDP" dst-port=7171 protocol=udp to-addresses=<Destination_IP> to-ports=7171
-add action=dst-nat chain=dstnat comment="Fortnite TCP" dst-port=3478,3479,5060,5062,5222,6250 protocol=tcp to-addresses=<Destination_IP> to-ports=3478,3479,5060,5062,5222,6250
-add action=dst-nat chain=dstnat comment="Fortnite UDP" dst-port=3478,3479,5060,5062,5222,6250 protocol=udp to-addresses=<Destination_IP> to-ports=3478,3479,5060,5062,5222,6250
+add action=dst-nat chain=dstnat comment="Final Fantasy XIV TCP" dst-port=27015-27030,27036-27037,54992-54994,55006-55007,55021-55040 protocol=tcp to-addresses=<Destination_IP> to-ports=27015-27030,27036-27037,54992-54994,55006-55007,55021-55040
+add action=dst-nat chain=dstnat comment="Final Fantasy XIV UDP" dst-port=4380,27000-27031,27036 protocol=udp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Diablo 4 TCP" dst-port=3478-3480,1119,6112-6114,28890-28893,54545-54549 protocol=tcp to-addresses=<Destination_IP> to-ports=3478-3480,1119,6112-6114,28890-28893,54545-54549
+add action=dst-nat chain=dstnat comment="Diablo 4 UDP" dst-port=1119,3074,3478-3479,6120 protocol=udp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Destiny 2 TCP" dst-port=3074 protocol=tcp to-addresses=<Destination_IP> to-ports=3074
+add action=dst-nat chain=dstnat comment="Destiny 2 UDP" dst-port=88,500,3544,4500 protocol=udp to-addresses=<Destination_IP> to-ports=88,500,3544,4500
+add action=dst-nat chain=dstnat comment="World of Warcraft TCP" dst-port=1119,3724,6012 protocol=tcp to-addresses=<Destination_IP> to-ports=1119,3724,6012
+add action=dst-nat chain=dstnat comment="World of Warcraft UDP" dst-port=1119,3724,6012 protocol=udp to-addresses=<Destination_IP> to-ports=1119,3724,6012
+
+add action=dst-nat chain=dstnat comment="Fortnite TCP" dst-port=5222,5795-5847 protocol=tcp to-addresses=<Destination_IP> to-ports=5222,5795-5847
+add action=dst-nat chain=dstnat comment="Fortnite UDP" dst-port=5222,5795-5847 protocol=udp to-addresses=<Destination_IP> to-ports=5222,5795-5847
+add action=dst-nat chain=dstnat comment="Craftopia TCP" dst-port=27015,27036 protocol=tcp to-addresses=<Destination_IP> to-ports=27015,27036
+add action=dst-nat chain=dstnat comment="Craftopia UDP" dst-port=6587,27015,27031-27036 protocol=udp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Roblox UDP" dst-port=49152-65535 protocol=udp to-addresses=<Destination_IP>
+add action=dst-nat chain=dstnat comment="Call of Duty: Modern Warfare 2 TCP" dst-port=3074,27014-27050 protocol=tcp to-addresses=<Destination_IP> to-ports=3074,27014-27050
+add action=dst-nat chain=dstnat comment="Call of Duty: Modern Warfare 2 UDP" dst-port=3478,4379-4380,27000-27031,27036 protocol=udp to-addresses=<Destination_IP> to-ports=3478,4379-4380,27000-27031,27036
+add action=dst-nat chain=dstnat comment="Counter-Strike: Global Offensive TCP" dst-port=27015,27036 protocol=tcp to-addresses=<Destination_IP> to-ports=27015,27036
+add action=dst-nat chain=dstnat comment="Counter-Strike: Global Offensive UDP" dst-port=27015,27020,27031-27036 protocol=udp to-addresses=<Destination_IP> to-ports=27015,27020,27031-27036
+add action=dst-nat chain=dstnat comment="BattleBit Remastered TCP" dst-port=27015,27036,29998 protocol=tcp to-addresses=<Destination_IP> to-ports=27015,27036,29998
+add action=dst-nat chain=dstnat comment="BattleBit Remastered UDP" dst-port=27015,27031-27036,29998 protocol=udp to-addresses=<Destination_IP> to-ports=27015,27031-27036,29998
 
 # Common TCP Ports
 add action=dst-nat chain=dstnat comment="Common TCP Ports" dst-port=14000,14008,14020,14021,14022,14023 protocol=tcp to-addresses=<Destination_IP>
