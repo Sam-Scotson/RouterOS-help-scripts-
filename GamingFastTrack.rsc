@@ -147,7 +147,7 @@ add action=dst-nat chain=dstnat comment="Counter-Strike: Global Offensive UDP" d
 add action=dst-nat chain=dstnat comment="BattleBit Remastered TCP" dst-port=27015,27036,29998 protocol=tcp to-addresses=<Destination_IP> to-ports=27015,27036,29998
 add action=dst-nat chain=dstnat comment="BattleBit Remastered UDP" dst-port=27015,27031-27036,29998 protocol=udp to-addresses=<Destination_IP> to-ports=27015,27031-27036,29998
 
-# Remnant II 
+# Remnant II
 add action=dst-nat chain=dstnat comment="Remnant II TCP" dst-port=27015,27036 protocol=tcp to-addresses=<Destination_IP> to-ports=27015,27036
 add action=dst-nat chain=dstnat comment="Remnant II UDP" dst-port=27015,27031-27036 protocol=udp to-addresses=<Destination_IP> to-ports=27015,27031-27036
 
