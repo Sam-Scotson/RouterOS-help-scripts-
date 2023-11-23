@@ -23,12 +23,20 @@ add chain=input action=accept protocol=tcp dst-port=22 src-address-list=trusted-
 add chain=input action=accept protocol=tcp dst-port=22 src-address-list=trusted-devices comment="Allow SSH from trusted devices"
 add chain=input action=drop in-interface=dmz comment="Drop all incoming traffic to DMZ except SSH"
 
-# DMZ bridge
+# DMZ WAN-LAN bridge 
 /interface bridge add name=dmz comment="DMZ Bridge"
 
+/interface ethernet set [ find default-name=ether2 ] name=eth2lan
+/ip address add address=192.168.1.1/24 interface=lan
+/ip pool add name=dhcPool ranges=192.168.1.2-192.168.1.254
+/ip dhcp-server add name=dhcp-lan interface=lan address-pool=dhcPool
+
+/interface ethernet set [ find default-name=ether5 ] name=eth5wan
+/ip dhcp-client add interface=wan disabled=no
+
 /interface bridge port
-add bridge=dmz interface=lan comment="Add LAN to DMZ bridge"
-add bridge=dmz interface=wan comment="Add WAN to DMZ bridge"
+add bridge=dmz interface=eth2lan comment="Add LAN to DMZ bridge"
+add bridge=dmz interface=eth5wan comment="Add WAN to DMZ bridge"
 
 /ip firewall filter
 add chain=forward action=drop in-interface=dmz comment="Drop all forwarding traffic in DMZ by default"
@@ -40,6 +48,10 @@ add chain=forward action=accept in-interface=lan out-interface=dmz comment="Allo
 # Allow traffic from DMZ to WAN
 /ip firewall filter
 add chain=forward action=accept in-interface=dmz out-interface=wan comment="Allow traffic from DMZ to WAN"
+
+# NAT 
+/ip firewall nat
+add chain=srcnat out-interface=wan action=masquerade
 
 # Allow HTTPS from trusted sites to DMZ
 /ip firewall filter
@@ -57,23 +69,3 @@ set allowed-interface-list=eth1
 /tool mac-server access
 add mac-address=00:11:22:33:44:55 comment="MGMT Device 1"
 add mac-address=AA:BB:CC:DD:EE:FF comment="MGMT Device 2"
-
-# If statements to check proper config of router
-
-:if (!($defconfPassword = "" || $defconfPassword = nil)) do={
-/user set admin password=$defconfPassword
-  }
-
-:if ([:typeof $defconfRSAKey] = "string" && $defconfRSAKey != "") do={
-  /user ssh-keys import user=admin public-key-file=$defconfRSAKey passphrase=""
-  :log info "SSH RSA key imported successfully"
-} else={
-  :log warning "No SSH RSA key provided or invalid format"
-}
-
-:local trustedDevicesCount [:len [/ip firewall address-list find list=trusted-devices]]
-:while ($trustedDevicesCount = 0) do={
-  :log warning "No IP addresses in trusted-devices list. Ensure at least one IP is added for SSH access."
-  :delay 1s
-  :set trustedDevicesCount [:len [/ip firewall address-list find list=trusted-devices]]
-}
