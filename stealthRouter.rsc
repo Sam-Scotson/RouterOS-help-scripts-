@@ -57,6 +57,14 @@ add chain=srcnat out-interface=wan action=masquerade
 /ip firewall filter
 add chain=forward action=accept protocol=tcp dst-port=443 src-address-list=trusted-sites in-interface=dmz comment="Allow HTTPS from trusted sites to DMZ"
 
+# Detect port scans
+/ip firewall filter
+add chain=input action=add-src-to-address-list address-list=port-scanners 
+address-list-timeout=1w protocol=tcp psd=21,3s,3,1 comment="Port scan detection"
+
+add chain=input action=drop src-address-list=port-scanners comment="Drop port scan traffic"
+
+# DNS 
 /ip dns set servers=8.8.8.8,8.8.4.4
 
 # Back-door eth interface 
