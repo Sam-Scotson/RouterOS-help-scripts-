@@ -44,7 +44,7 @@ add address=____ gateway=_____
 #example--> address=XXX.XXX.X.0/24 gateway=XXX.XXX.XXX.254
 
 /ip dns
-set servers=1.1.1.1, _____, ______
+set servers=8.8.8.8, _____, ______
 #add additional dns ip's
 
 /system clock
@@ -68,11 +68,8 @@ add address=______ list=TRUSTED
 
 #simple firewall list for pppoe, add or subtract as needed, add ports
 /ip firewall address-list
-add address=10.0.0.0/8 list=TRUSTED
-add address=172.16.0.0/12 list=TRUSTED
-add address=192.168.0.0/16 list=TRUSTED
-add address=202.44.60.192/26 list=TRUSTED
-add address=103.232.106.119 list=TRUSTED
+add address=xxx.xxx.xxx.xxx list=TRUSTED
+
 /ip firewall filter
 add action=accept chain=input connection-state=established,related
 add action=accept chain=input src-address-list=TRUSTED
