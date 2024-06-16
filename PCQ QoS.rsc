@@ -56,4 +56,4 @@ add chain=prerouting src-address=192.168.1.192/26 action=mark-packet new-packet-
 # Example: For 250 users, Total Limit = 250 * 50 = 12500
 
 /queue type
-set total-limit=12500 comment="Set total limit based on 250 users with a default limit of 50"
+set total-limit=12500
